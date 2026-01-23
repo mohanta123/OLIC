@@ -21,13 +21,30 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.primary,
-      automaticallyImplyLeading: showBack,
-      title: Text(title),
+      elevation: 0,
+
+      // ✅ FIX: MANUAL LEADING HANDLING
+      leading: showBack
+          ? const BackButton(color: Colors.white)
+          : Builder(
+        builder: (context) => IconButton(
+          icon: const Icon(Icons.menu, color: Colors.white),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
+      ),
+
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+
       actions: [
         // 🌐 Language chooser
         IconButton(
           tooltip: 'Language',
-          icon: const Icon(Icons.language),
+          icon: const Icon(Icons.language, color: Colors.white),
           onPressed: () => _showLanguageDialog(context),
         ),
 
@@ -63,7 +80,6 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       },
     );
   }
-
 
   Widget _languageTile(
       BuildContext context, {

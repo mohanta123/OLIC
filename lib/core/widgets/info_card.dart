@@ -3,92 +3,100 @@ import 'package:flutter/material.dart';
 class InfoCard extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final String value;
+
+  // 🔹 NOW OPTIONAL
+  final String? value;
   final String? unit;
+
   final String? time;
   final Color color;
-  final IconData icon;
+  final String image;
   final Widget? bottom;
 
   const InfoCard({
     super.key,
     required this.title,
     this.subtitle,
-    required this.value,
+    this.value, // ✅ optional
     this.unit,
     this.time,
     required this.color,
-    required this.icon,
+    required this.image,
     this.bottom,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // 🔹 Icon
-          Icon(icon, color: Colors.white, size: 30),
-
-          const SizedBox(height: 12),
-
-          // 🔹 Title
-          Text(
-            title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // 🔹 Icon
+            Image.asset(
+              image,
+              height: 34,
+              width: 34,
               color: Colors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
             ),
-          ),
 
-          // 🔹 Subtitle
-          if (subtitle != null) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: 10),
+
+            // 🔹 Title
             Text(
-              subtitle!,
-              maxLines: 1,
+              title,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 12,
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
               ),
             ),
-          ],
 
-          // 🔹 Time
-          if (time != null) ...[
-            const SizedBox(height: 6),
-            Text(
-              time!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Colors.white70,
-                fontSize: 11,
+            // 🔹 Subtitle
+            if (subtitle != null) ...[
+              const SizedBox(height: 2),
+              Text(
+                subtitle!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                ),
               ),
-            ),
-          ],
+            ],
 
-          const SizedBox(height: 8),
+            // 🔹 Time
+            if (time != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                time!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 11,
+                ),
+              ),
+            ],
 
-          // 🔹 Value (flex-safe)
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Row(
+            const Spacer(),
+
+            // 🔹 VALUE SECTION (SAFE)
+            if (value != null)
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    value,
+                    value!,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -108,15 +116,14 @@ class InfoCard extends StatelessWidget {
                     ),
                 ],
               ),
-            ),
-          ),
 
-          // 🔹 Optional Bottom Widget
-          if (bottom != null) ...[
-            const SizedBox(height: 8),
-            bottom!,
+            // 🔹 Bottom widget
+            if (bottom != null) ...[
+              const SizedBox(height: 8),
+              bottom!,
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

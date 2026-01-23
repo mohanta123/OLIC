@@ -202,7 +202,7 @@ class _WaterPageState extends State<WaterPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: Colors.black54)),
+        Text(label),
         const SizedBox(height: 2),
         Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
       ],

@@ -168,7 +168,7 @@ class _ElectricityPageState extends State<ElectricityPage> {
             value,
             style: TextStyle(
               fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-              color: valueColor,
+
             ),
           ),
         ],
@@ -199,7 +199,7 @@ class _ElectricityPageState extends State<ElectricityPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(color: Colors.black54)),
+        Text(label),
         const SizedBox(height: 2),
         Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
       ],
