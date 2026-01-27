@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import '../../../core/localization/app_localizations.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/localization/app_localizations.dart';
+import '../../../../core/theme/app_colors.dart';
 
 class EnvironmentCard extends StatelessWidget {
   final bool motorOn;
+  final String temperature;
+  final String humidity;
   final ValueChanged<bool> onMotorChanged;
 
   const EnvironmentCard({
     super.key,
     required this.motorOn,
+    required this.temperature,
+    required this.humidity,
     required this.onMotorChanged,
   });
 
@@ -20,14 +24,14 @@ class EnvironmentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 🔹 Title (Theme-based)
+        /// 🔹 Title
         Text(
           t.t('real_time_monitoring'),
           style: theme.textTheme.headlineSmall,
         ),
         const SizedBox(height: 12),
 
-        // 🌡 Temperature + 💧 Humidity (CardTheme applied)
+        /// 🌡 Temperature + 💧 Humidity Card
         Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -40,7 +44,7 @@ class EnvironmentCard extends StatelessWidget {
                 _envItem(
                   context,
                   title: t.t('temperature'),
-                  value: '30°',
+                  value: temperature,
                   sub: t.t('hot_weather'),
                   valueColor: AppColors.danger,
                 ),
@@ -48,7 +52,7 @@ class EnvironmentCard extends StatelessWidget {
                 _envItem(
                   context,
                   title: t.t('humidity'),
-                  value: '60%',
+                  value: humidity,
                   valueColor: AppColors.success,
                 ),
               ],
@@ -58,7 +62,7 @@ class EnvironmentCard extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // ⚙️ Motor Starter Row
+        /// ⚙️ Motor Status Switch
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -71,14 +75,16 @@ class EnvironmentCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  t.t('motor_power_on'),
+                  motorOn
+                      ? t.t('motor_power_on')
+                      : t.t('motor_power_off'),
                   style: theme.textTheme.bodySmall,
                 ),
               ],
             ),
             Switch(
               value: motorOn,
-              onChanged: onMotorChanged, // SwitchTheme handles color
+              onChanged: onMotorChanged,
             ),
           ],
         ),

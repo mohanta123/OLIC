@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../features/auth/presentation/welcome_page.dart';
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/auth/presentation/otp_page.dart';
+import '../../features/register/registerMotorPage.dart';
 import '../../navigation/bottom_nav_page.dart';
 import '../../features/electricity/presentation/electricity_page.dart';
 import '../../features/water/presentation/water_page.dart';
@@ -32,6 +33,11 @@ class AppRouter {
 
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case AppRoutes.registerMotor:
+        return MaterialPageRoute(
+          builder: (_) => const RegisterMotorPage(),
+        );
+
 
       default:
         return MaterialPageRoute(

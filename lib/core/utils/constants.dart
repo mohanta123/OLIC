@@ -7,4 +7,6 @@ class AppRoutes {
   static const electricity = '/electricity';
   static const water = '/water';
   static const profile = '/profile';
+  static const String registerMotor = '/register-motor';
+
 }

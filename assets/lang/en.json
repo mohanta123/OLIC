@@ -45,6 +45,24 @@
   "notifications": "Notifications",
   "yes": "Yes",
   "no_records": "No records found",
-  "high_usage": "High Usage"
-
+  "high_usage": "High Usage",
+  "secure_login": "Secure login via OTP",
+  "invalid_otp": "Enter valid 6-digit OTP",
+  "resend_otp": "Resend OTP",
+  "dark_mode": "Dark Mode",
+  "light_mode": "Light Mode",
+  "theme": "Theme",
+  "register_motor": "Register Motor",
+  "name": "Name",
+  "mobile_no": "Mobile Number",
+  "aadhaar_no": "Aadhaar Number",
+  "motor_id": "Motor ID",
+  "pump_location": "Pump Location",
+  "submit": "Submit",
+  "no_internet": "No Internet Connection",
+  "enter_credentials": "Enter your username and password",
+  "username": "Username",
+  "enter_username": "Enter username",
+  "password": "Password",
+  "enter_password": "Enter password"
 }

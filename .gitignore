@@ -43,3 +43,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+mahilacommissionkeystore_details.txt
+android/key.properties
+android/app/mahilacommission-keystore.jks

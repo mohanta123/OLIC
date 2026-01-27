@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../features/dashboard/presentation/dashboard_page.dart';
+import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/electricity/presentation/electricity_page.dart';
 import '../features/water/presentation/water_page.dart';
 

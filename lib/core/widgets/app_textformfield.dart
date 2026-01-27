@@ -16,11 +16,16 @@ class AppTextFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
   final bool obscureText;
+  final bool enableObscureToggle; // ✅ NEW
   final int maxLines;
   final int minLines;
   final int? maxLength;
+  final bool hideCounter; // ✅ NEW
   final bool readOnly;
   final bool enabled;
+  final TextCapitalization textCapitalization; // ✅ NEW
+  final TextAlign textAlign; // ✅ NEW
+  final Iterable<String>? autofillHints; // ✅ NEW
 
   // 🔹 Icons
   final IconData? prefixIcon;
@@ -34,13 +39,15 @@ class AppTextFormField extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final VoidCallback? onTap;
 
-  // 🔹 Input formatters (✅ NEW)
+  // 🔹 Input formatters
   final List<TextInputFormatter>? inputFormatters;
 
   // 🔹 Style & layout
   final EdgeInsetsGeometry contentPadding;
   final double borderRadius;
   final Color? fillColor;
+  final Color? cursorColor; // ✅ NEW
+  final bool borderless; // ✅ NEW
 
   const AppTextFormField({
     super.key,
@@ -54,11 +61,16 @@ class AppTextFormField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
     this.obscureText = false,
+    this.enableObscureToggle = false,
     this.maxLines = 1,
     this.minLines = 1,
     this.maxLength,
+    this.hideCounter = false,
     this.readOnly = false,
     this.enabled = true,
+    this.textCapitalization = TextCapitalization.none,
+    this.textAlign = TextAlign.start,
+    this.autofillHints,
     this.prefixIcon,
     this.prefix,
     this.suffixIcon,
@@ -67,58 +79,89 @@ class AppTextFormField extends StatelessWidget {
     this.onChanged,
     this.onSubmitted,
     this.onTap,
-    this.inputFormatters, // ✅ ADDED
+    this.inputFormatters,
     this.contentPadding =
     const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
     this.borderRadius = 12,
     this.fillColor,
+    this.cursorColor,
+    this.borderless = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      focusNode: focusNode,
-      initialValue: controller == null ? initialValue : null,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      obscureText: obscureText,
-      maxLines: obscureText ? 1 : maxLines,
-      minLines: minLines,
-      maxLength: maxLength,
-      readOnly: readOnly,
-      enabled: enabled,
-      validator: validator,
-      onChanged: onChanged,
-      onFieldSubmitted: onSubmitted,
-      onTap: onTap,
-      inputFormatters: inputFormatters, // ✅ USED HERE
-      style: const TextStyle(color: AppColors.textPrimary),
+    final ValueNotifier<bool> obscureNotifier =
+    ValueNotifier<bool>(obscureText);
 
-      decoration: InputDecoration(
-        hintText: hintText,
-        labelText: labelText,
-        helperText: helperText,
-        errorText: errorText,
+    return ValueListenableBuilder<bool>(
+      valueListenable: obscureNotifier,
+      builder: (context, isObscure, _) {
+        return TextFormField(
+          controller: controller,
+          focusNode: focusNode,
+          initialValue: controller == null ? initialValue : null,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          obscureText: isObscure,
+          maxLines: isObscure ? 1 : maxLines,
+          minLines: minLines,
+          maxLength: maxLength,
+          readOnly: readOnly,
+          enabled: enabled,
+          validator: validator,
+          onChanged: onChanged,
+          onFieldSubmitted: onSubmitted,
+          onTap: onTap,
+          inputFormatters: inputFormatters,
+          textCapitalization: textCapitalization,
+          textAlign: textAlign,
+          autofillHints: autofillHints,
+          cursorColor: cursorColor ?? AppColors.primary,
+          style: const TextStyle(color: AppColors.textPrimary),
 
-        filled: true,
-        fillColor: fillColor ?? AppColors.card,
+          decoration: InputDecoration(
+            hintText: hintText,
+            labelText: labelText,
+            helperText: helperText,
+            errorText: errorText,
+            counterText: hideCounter ? "" : null,
 
-        prefixIcon: prefixIcon != null
-            ? Icon(prefixIcon, color: AppColors.primary)
-            : prefix,
-        suffixIcon: suffixIcon != null
-            ? Icon(suffixIcon, color: AppColors.textSecondary)
-            : suffix,
+            filled: true,
+            fillColor: fillColor ?? AppColors.card,
 
-        contentPadding: contentPadding,
+            prefixIcon: prefixIcon != null
+                ? Icon(prefixIcon, color: AppColors.primary)
+                : prefix,
 
-        enabledBorder: _border(AppColors.border),
-        focusedBorder: _border(AppColors.primary),
-        errorBorder: _border(AppColors.danger),
-        focusedErrorBorder: _border(AppColors.danger),
-        disabledBorder: _border(AppColors.border.withOpacity(0.5)),
-      ),
+            suffixIcon: enableObscureToggle
+                ? IconButton(
+              icon: Icon(
+                isObscure ? Icons.visibility_off : Icons.visibility,
+                color: AppColors.textSecondary,
+              ),
+              onPressed: () =>
+              obscureNotifier.value = !obscureNotifier.value,
+            )
+                : (suffixIcon != null
+                ? Icon(suffixIcon, color: AppColors.textSecondary)
+                : suffix),
+
+            contentPadding: contentPadding,
+
+            enabledBorder:
+            borderless ? InputBorder.none : _border(AppColors.border),
+            focusedBorder:
+            borderless ? InputBorder.none : _border(AppColors.primary),
+            errorBorder:
+            borderless ? InputBorder.none : _border(AppColors.danger),
+            focusedErrorBorder:
+            borderless ? InputBorder.none : _border(AppColors.danger),
+            disabledBorder: borderless
+                ? InputBorder.none
+                : _border(AppColors.border.withOpacity(0.5)),
+          ),
+        );
+      },
     );
   }
 
